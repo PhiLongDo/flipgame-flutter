@@ -24,7 +24,7 @@ class _ItemGameState extends State<ItemGame> {
     } else {
       w = MediaQuery.of(context).size.width / GlobalSetting.getGamePlayWidth();
     }
-    return w - 6;
+    return w;
   }
 
   @override
@@ -38,17 +38,17 @@ class _ItemGameState extends State<ItemGame> {
       child: Container(
         width: _getWidth(context),
         height: _getWidth(context),
-        margin: EdgeInsets.all(3.0),
         padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(3.0),
-          color: _isTouched ? Colors.deepOrange : Colors.amberAccent,
+          border: Border.all(color: Colors.white, width: 1),
+          color: _isTouched ? Colors.amberAccent : Colors.greenAccent,
         ),
         child: Visibility(
           visible: GlobalSetting.stateVisible[widget.y][widget.x],
           child: Center(
             child: Text(
-              widget.value,
+              _isTouched ? widget.value : "*",
               style: TextStyle(
                 color: _isTouched ? Colors.brown : Colors.blue,
               ),

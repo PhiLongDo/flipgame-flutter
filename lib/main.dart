@@ -46,15 +46,15 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 10.0),
-                padding: EdgeInsets.symmetric(vertical: 50.0, horizontal: 45.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100.0),
-                  color: Colors.greenAccent,
-                ),
-                child: InkWell(
-                  onTap: () => Navigator.pushNamed(context, "play"),
+              InkWell(
+                onTap: () => Navigator.pushNamed(context, "play"),
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 10.0),
+                  padding: EdgeInsets.symmetric(vertical: 50.0, horizontal: 45.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100.0),
+                    color: Colors.greenAccent,
+                  ),
                   child: Text(
                     "Play",
                     textAlign: TextAlign.center,
@@ -65,15 +65,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 5.0),
-                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50.0),
-                  color: Colors.cyanAccent,
-                ),
-                child: InkWell(
-                  onTap: () => Navigator.pushNamed(context, "levels"),
+              InkWell(
+                onTap: () => Navigator.pushNamed(context, "levels"),
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 5.0),
+                  padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50.0),
+                    color: Colors.cyanAccent,
+                  ),
                   child: Text(
                     "Levels",
                     textAlign: TextAlign.center,
@@ -84,15 +84,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 5.0),
-                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50.0),
-                  color: Colors.indigoAccent,
-                ),
-                child: InkWell(
-                  onTap: () => Navigator.pushNamed(context, "types"),
+              InkWell(
+                onTap: () => Navigator.pushNamed(context, "types"),
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 5.0),
+                  padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50.0),
+                    color: Colors.indigoAccent,
+                  ),
                   child: Text(
                     "Types",
                     textAlign: TextAlign.center,
@@ -103,15 +103,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 5.0),
-                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50.0),
-                  color: Colors.grey,
-                ),
-                child: InkWell(
-                  onTap: () => exit(0),
+              InkWell(
+                onTap: () => exit(0),
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 5.0),
+                  padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50.0),
+                    color: Colors.grey,
+                  ),
                   child: Text(
                     "Exit",
                     textAlign: TextAlign.center,

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flipgame/commons/commons.dart';
 import 'package:flutter/material.dart';
 
@@ -9,20 +11,13 @@ class GamePlayMainScreen extends StatefulWidget {
 }
 
 class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
-  late Column _widgetMatrixGame;
+  late Column _widgetMatrixGame; // display main screen game play
 
   late int _width, _height; // size of matrix game
-  String valueA = "", valueB = "";
+  late int _itemCountDown;
+  late List<String> _valueGame;
 
-  void _actionGame(int y, int x) {
-    if (valueA == "") {
-      valueA = GlobalSetting.matrixGame[y][x].value;
-    } else {
-      valueB = GlobalSetting.matrixGame[y][x].value;
-    }
-    GlobalSetting.stateTouched[y][x] = true;
-  }
-
+  /// Create widgetMatrixGame
   void _initGame() {
     GlobalSetting.stateTouched.clear();
     GlobalSetting.stateVisible.clear();
@@ -30,19 +25,23 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
     _width = GlobalSetting.getGamePlayWidth();
     _height = GlobalSetting.getGamePlayHeight();
     List<Row> column = [];
+    _itemCountDown = _width *_height;
+    _crateListValueInGame();
+
+    // create widget
     for (int y = 1; y <= _height; y++) {
       List<ItemGame> gameRow = [];
       GlobalSetting.stateTouched.add(List.generate(_width, (index) => false));
       GlobalSetting.stateVisible.add(List.generate(_width, (index) => true));
-      print (GlobalSetting.stateVisible[y-1]);
       for (int x = 1; x <= _width; x++) {
         String valueI = (x * y + y).toString();
         var itemGame = new ItemGame(
           // onTap: _actionGame(y-1, x-1),
-          value: valueI,
+          value: _valueGame.last,
           x: x-1,
           y: y-1,
         );
+        _valueGame.removeLast();
         gameRow.add(itemGame);
       }
       Row row =
@@ -52,7 +51,21 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
     }
     _widgetMatrixGame =
         Column(mainAxisAlignment: MainAxisAlignment.center, children: column);
+    _itemCountDown = _width & _height;
   }
+
+  /// create random list value
+  void _crateListValueInGame() {
+    _valueGame = List.generate(_itemCountDown, (index) => "");
+    List<int> listIndex = List.generate(_itemCountDown, (index) => index);
+    for (int i = 0; i < _itemCountDown ; i++) {
+      var random = Random();
+      var index = random.nextInt(_itemCountDown - i);
+      _valueGame[listIndex[index]] = GlobalSetting.listValue[i~/2];
+      listIndex.removeAt(index);
+    }
+  }
+
 
   @override
   void initState() {

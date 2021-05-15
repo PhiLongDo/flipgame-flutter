@@ -7,6 +7,8 @@ class GlobalSetting {
   static List<List<ItemGame>> matrixGame = []; // matrix game
   static List<List<bool>> stateTouched = []; // state taped matrix game
   static List<List<bool>> stateVisible = []; //state visible matrix game
+  static List<String> listValue = ['🍓','🍒','🍎','🍉','🍑','🍊','🥭','🍍','🍌','🍄','🍈','🍏','🍐','🥝','🍇','🥥','🍅','🌶','🍄','🥕','🍠','🌽','🥦','🥒','🥬','🥑','🍆','🥔','🌰','🥜','🍞','🥐','🥖','🥯','🥞','🍳','🥣','🥗','🍲','🍛','🍜','🦞','🍣','🍤','🥡','🥠','🍡','🍥','🍘','🍙','🍢','🥟','🍱','🍚','🥮','🍧','🍨','🍦','🥧'];
+  static String valueA = "", valueB = ""; // value of items game is opening
 
   static int getGamePlayWidth() {
     int width = 3;
@@ -27,7 +29,6 @@ class GlobalSetting {
     }
     return width;
   }
-
   static int getGamePlayHeight() {
     int height = 4;
     if (level == GamePlayLevels.lv3x4) {
@@ -53,7 +54,6 @@ enum GamePlayTypes {
   infinity,
   timeLimit,
 }
-
 enum GamePlayLevels {
   lv3x4,
   lv4x5,

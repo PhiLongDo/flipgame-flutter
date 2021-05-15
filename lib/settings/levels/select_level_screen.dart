@@ -24,7 +24,7 @@ class _SelectLevelScreenState extends State<SelectLevelScreen> {
             children: [
               ItemSetting(
                   onTap: () => _select(GamePlayLevels.lv3x4),
-                  text: "Level (3x3)",
+                  text: "Level (3x4)",
                   selected: GlobalSetting.level == GamePlayLevels.lv3x4),
               ItemSetting(
                   onTap: () => _select(GamePlayLevels.lv4x5),
