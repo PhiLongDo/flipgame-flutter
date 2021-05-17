@@ -50,7 +50,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 onTap: () => Navigator.pushNamed(context, "play"),
                 child: Container(
                   margin: EdgeInsets.symmetric(vertical: 10.0),
-                  padding: EdgeInsets.symmetric(vertical: 50.0, horizontal: 45.0),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 50.0, horizontal: 45.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100.0),
                     color: Colors.greenAccent,
@@ -69,7 +70,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 onTap: () => Navigator.pushNamed(context, "levels"),
                 child: Container(
                   margin: EdgeInsets.symmetric(vertical: 5.0),
-                  padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50.0),
                     color: Colors.cyanAccent,
@@ -88,7 +90,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 onTap: () => Navigator.pushNamed(context, "types"),
                 child: Container(
                   margin: EdgeInsets.symmetric(vertical: 5.0),
-                  padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50.0),
                     color: Colors.indigoAccent,
@@ -104,10 +107,28 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               InkWell(
-                onTap: () => exit(0),
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text("Exit"),
+                          content: Text("Do you want exit app?"),
+                          actions: [
+                            TextButton(
+                                onPressed: () => exit(0), child: Text("Yes")),
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text("No"),
+                            )
+                          ],
+                        );
+                      });
+                },
                 child: Container(
                   margin: EdgeInsets.symmetric(vertical: 5.0),
-                  padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50.0),
                     color: Colors.grey,

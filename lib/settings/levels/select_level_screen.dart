@@ -38,10 +38,10 @@ class _SelectLevelScreenState extends State<SelectLevelScreen> {
                   onTap: () => _select(GamePlayLevels.lv6x7),
                   text: "Level (6x7)",
                   selected: GlobalSetting.level == GamePlayLevels.lv6x7),
-              ItemSetting(
-                  onTap: () => _select(GamePlayLevels.lv10x10),
-                  text: "Level (10x10)",
-                  selected: GlobalSetting.level == GamePlayLevels.lv10x10),
+            //   ItemSetting(
+            //       onTap: () => _select(GamePlayLevels.lv7x8),
+            //       text: "Level (7x8)",
+            //       selected: GlobalSetting.level == GamePlayLevels.lv7x8),
             ],
           ),
         ),

@@ -3,18 +3,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ItemGame extends StatefulWidget {
-  final String value;
-  final int x;
-  final int y;
+  final String text;
+  final VoidCallback onTap;
+  final bool visible, isOpen;
 
-  ItemGame({required this.value, required this.x, required this.y});
+
+  ItemGame({required this.onTap, required this.visible, required this.isOpen, required this.text});
 
   @override
   _ItemGameState createState() => _ItemGameState();
 }
 
 class _ItemGameState extends State<ItemGame> {
-  bool _isTouched = false;
 
   double _getWidth(BuildContext context) {
     double w;
@@ -29,28 +29,28 @@ class _ItemGameState extends State<ItemGame> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        setState(() {
-          _isTouched = !_isTouched;
-        });
-      },
-      child: Container(
-        width: _getWidth(context),
-        height: _getWidth(context),
-        padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(3.0),
-          border: Border.all(color: Colors.white, width: 1),
-          color: _isTouched ? Colors.amberAccent : Colors.greenAccent,
-        ),
-        child: Visibility(
-          visible: GlobalSetting.stateVisible[widget.y][widget.x],
-          child: Center(
-            child: Text(
-              _isTouched ? widget.value : "*",
-              style: TextStyle(
-                color: _isTouched ? Colors.brown : Colors.blue,
+    return Container(
+      width: _getWidth(context),
+      height: _getWidth(context),
+      child: Visibility(
+        visible: widget.visible,
+        child: InkWell(
+          onTap: widget.onTap,
+          child: Container(
+            width: _getWidth(context),
+            height: _getWidth(context),
+            padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(3.0),
+              border: Border.all(color: Colors.white, width: 1),
+              color: widget.isOpen ? Colors.amberAccent : Colors.greenAccent,
+            ),
+            child: Center(
+              child: Text(
+                widget.isOpen ? widget.text : "*",
+                style: TextStyle(
+                  color: widget.isOpen ? Colors.brown : Colors.blue,
+                ),
               ),
             ),
           ),

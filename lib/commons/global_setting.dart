@@ -2,13 +2,11 @@ import 'package:flipgame/game_play/item_game.dart';
 
 /// Save current setting (ex: level, type,...)
 class GlobalSetting {
+  static int timeDelay = 400;
   static GamePlayLevels level = GamePlayLevels.lv3x4;
   static GamePlayTypes type = GamePlayTypes.infinity;
   static List<List<ItemGame>> matrixGame = []; // matrix game
-  static List<List<bool>> stateTouched = []; // state taped matrix game
-  static List<List<bool>> stateVisible = []; //state visible matrix game
   static List<String> listValue = ['🍓','🍒','🍎','🍉','🍑','🍊','🥭','🍍','🍌','🍄','🍈','🍏','🍐','🥝','🍇','🥥','🍅','🌶','🍄','🥕','🍠','🌽','🥦','🥒','🥬','🥑','🍆','🥔','🌰','🥜','🍞','🥐','🥖','🥯','🥞','🍳','🥣','🥗','🍲','🍛','🍜','🦞','🍣','🍤','🥡','🥠','🍡','🍥','🍘','🍙','🍢','🥟','🍱','🍚','🥮','🍧','🍨','🍦','🥧'];
-  static String valueA = "", valueB = ""; // value of items game is opening
 
   static int getGamePlayWidth() {
     int width = 3;
@@ -24,8 +22,8 @@ class GlobalSetting {
     if (level == GamePlayLevels.lv6x7) {
       width = 6;
     }
-    if (level == GamePlayLevels.lv10x10) {
-      width = 10;
+    if (level == GamePlayLevels.lv7x8) {
+      width = 7;
     }
     return width;
   }
@@ -43,8 +41,8 @@ class GlobalSetting {
     if (level == GamePlayLevels.lv6x7) {
       height = 7;
     }
-    if (level == GamePlayLevels.lv10x10) {
-      height = 10;
+    if (level == GamePlayLevels.lv7x8) {
+      height = 8;
     }
     return height;
   }
@@ -59,5 +57,5 @@ enum GamePlayLevels {
   lv4x5,
   lv5x6,
   lv6x7,
-  lv10x10,
+  lv7x8,
 }
