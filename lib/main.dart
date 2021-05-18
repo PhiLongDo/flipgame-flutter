@@ -46,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              InkWell(
+              GestureDetector(
                 onTap: () => Navigator.pushNamed(context, "play"),
                 child: Container(
                   margin: EdgeInsets.symmetric(vertical: 10.0),
@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
-              InkWell(
+              GestureDetector(
                 onTap: () => Navigator.pushNamed(context, "levels"),
                 child: Container(
                   margin: EdgeInsets.symmetric(vertical: 5.0),
@@ -86,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
-              InkWell(
+              GestureDetector(
                 onTap: () => Navigator.pushNamed(context, "types"),
                 child: Container(
                   margin: EdgeInsets.symmetric(vertical: 5.0),
@@ -106,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
-              InkWell(
+              GestureDetector(
                 onTap: () {
                   showDialog(
                       context: context,
@@ -116,11 +116,13 @@ class _MyHomePageState extends State<MyHomePage> {
                           content: Text("Do you want exit app?"),
                           actions: [
                             TextButton(
-                                onPressed: () => exit(0), child: Text("Yes")),
-                            TextButton(
                               onPressed: () => Navigator.pop(context),
                               child: Text("No"),
-                            )
+                            ),
+                            TextButton(
+                              onPressed: () => exit(0),
+                              child: Text("Yes"),
+                            ),
                           ],
                         );
                       });

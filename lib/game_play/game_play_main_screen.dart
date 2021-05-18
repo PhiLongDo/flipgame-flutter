@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flipgame/commons/commons.dart';
+import 'package:flipgame/game_play/time_counter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -17,10 +18,10 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
   List<List<bool>> _stateVisible = []; //state visible matrix game
   String _valueA = "", _valueB = ""; // value of items game is opening
   int _xPre = -1, _yPre = -1;
-  late int _itemCountDown;
+  // late int _itemCountDown;
   late List<List<String>> _valueGame = [];
   late List<String> _textGame;
-  bool _isDelaying = false;
+  bool _isDelaying = true;
 
   /// Create const of game
   void _initGame() {
@@ -28,7 +29,7 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
     _stateVisible.clear();
     _width = GlobalSetting.getGamePlayWidth();
     _height = GlobalSetting.getGamePlayHeight();
-    _itemCountDown = _width * _height;
+    GlobalSetting.itemCountDown = _width * _height;
     for (int y = 1; y <= _height; y++) {
       _stateOpened.add(List.generate(_width, (index) => false));
       _stateVisible.add(List.generate(_width, (index) => true));
@@ -53,18 +54,19 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
     setState(() => _isDelaying = true);
     Future.delayed(Duration(milliseconds: GlobalSetting.timeDelay), () {
       if (_valueA == _valueB) {
-        _itemCountDown -= 2;
+        GlobalSetting.itemCountDown -= 2;
         setState(() {
           _stateVisible[y][x] = false;
           _stateVisible[_yPre][_xPre] = false;
         });
       }
-      if (_itemCountDown == 0) {
+      if (GlobalSetting.itemCountDown == 0) {
+        GlobalSetting.timer.cancel();
         showCupertinoDialog(
             context: context,
             builder: (context) {
               return AlertDialog(
-                title: Text("Clear!"),
+                title: Text("You win!"),
                 actions: [
                   TextButton(
                     onPressed: () {
@@ -118,11 +120,11 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
 
   /// create random list text
   void _crateListValueInGame() {
-    _textGame = List.generate(_itemCountDown, (index) => "");
-    List<int> listIndex = List.generate(_itemCountDown, (index) => index);
-    for (int i = 0; i < _itemCountDown; i++) {
+    _textGame = List.generate(GlobalSetting.itemCountDown, (index) => "");
+    List<int> listIndex = List.generate(GlobalSetting.itemCountDown, (index) => index);
+    for (int i = 0; i < GlobalSetting.itemCountDown; i++) {
       var random = Random();
-      var index = random.nextInt(_itemCountDown - i);
+      var index = random.nextInt(GlobalSetting.itemCountDown - i);
       _textGame[listIndex[index]] = GlobalSetting.listValue[i ~/ 2];
       _valueGame[listIndex[index] ~/ _width][listIndex[index] % _width] =
           _textGame[listIndex[index]];
@@ -145,11 +147,17 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
           child: _buildWidgetMatrixGame(),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        child: Text("Back"),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          OutlinedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("Back"),
+          ),
+          TimeCounter(onStart: ()=>setState((){_isDelaying = !_isDelaying;}), onTimeout: (){}, ),
+        ],
       ),
     );
   }

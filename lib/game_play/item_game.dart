@@ -34,7 +34,7 @@ class _ItemGameState extends State<ItemGame> {
       height: _getWidth(context),
       child: Visibility(
         visible: widget.visible,
-        child: InkWell(
+        child: GestureDetector(
           onTap: widget.onTap,
           child: Container(
             width: _getWidth(context),

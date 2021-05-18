@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flipgame/game_play/item_game.dart';
 
 /// Save current setting (ex: level, type,...)
@@ -7,6 +9,10 @@ class GlobalSetting {
   static GamePlayTypes type = GamePlayTypes.infinity;
   static List<List<ItemGame>> matrixGame = []; // matrix game
   static List<String> listValue = ['🍓','🍒','🍎','🍉','🍑','🍊','🥭','🍍','🍌','🍄','🍈','🍏','🍐','🥝','🍇','🥥','🍅','🌶','🍄','🥕','🍠','🌽','🥦','🥒','🥬','🥑','🍆','🥔','🌰','🥜','🍞','🥐','🥖','🥯','🥞','🍳','🥣','🥗','🍲','🍛','🍜','🦞','🍣','🍤','🥡','🥠','🍡','🍥','🍘','🍙','🍢','🥟','🍱','🍚','🥮','🍧','🍨','🍦','🥧'];
+  static int timeCounter = 300;
+  static late Timer timer;
+  static int itemCountDown = 0;
+  // static bool isPlaying = false;
 
   static int getGamePlayWidth() {
     int width = 3;
