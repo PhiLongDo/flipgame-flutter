@@ -1,6 +1,6 @@
 # flipgame
 
-A new Flutter project.
+Một trò chơi đơn giản, vui vẻ
 
 ## Getting Started
 
