@@ -9,9 +9,10 @@ class GlobalSetting {
   static GamePlayTypes type = GamePlayTypes.infinity;
   static List<List<ItemGame>> matrixGame = []; // matrix game
   static List<String> listValue = ['🍓','🍒','🍎','🍉','🍑','🍊','🥭','🍍','🍌','🍄','🍈','🍏','🍐','🥝','🍇','🥥','🍅','🌶','🍄','🥕','🍠','🌽','🥦','🥒','🥬','🥑','🍆','🥔','🌰','🥜','🍞','🥐','🥖','🥯','🥞','🍳','🥣','🥗','🍲','🍛','🍜','🦞','🍣','🍤','🥡','🥠','🍡','🍥','🍘','🍙','🍢','🥟','🍱','🍚','🥮','🍧','🍨','🍦','🥧'];
-  static int timeCounter = 300;
+  static int timeCounter = 0;
   static late Timer timer;
   static int itemCountDown = 0;
+  static int seconds = 180;    // time limit
   // static bool isPlaying = false;
 
   static int getGamePlayWidth() {
@@ -64,4 +65,16 @@ enum GamePlayLevels {
   lv5x6,
   lv6x7,
   lv7x8,
+}
+
+/// Format MMSS
+String formatMMSS(int ticks) {
+  String str = "";
+  int minutes = ticks ~/ 60;
+  str = ("0" + minutes.toString()).substring(minutes.toString().length - 1);
+  int seconds = ticks % 60;
+  str = str +
+      ":" +
+      ("0" + seconds.toString()).substring(seconds.toString().length - 1);
+  return str;
 }

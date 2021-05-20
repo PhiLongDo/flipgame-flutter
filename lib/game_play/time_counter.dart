@@ -16,9 +16,6 @@ class TimeCounter extends StatefulWidget {
 }
 
 class _TimeCounterState extends State<TimeCounter> {
-  int _seconds = 300;
-
-  // late Timer _timer;
   bool _isPlaying = false;
 
   void startTimer() {
@@ -30,7 +27,8 @@ class _TimeCounterState extends State<TimeCounter> {
     GlobalSetting.timer = new Timer.periodic(
       oneSec,
       (Timer timer) {
-        if (GlobalSetting.timeCounter == 0) {
+        if (GlobalSetting.timeCounter == 0 &&
+            GlobalSetting.type == GamePlayTypes.timeLimit) {
           timer.cancel();
           widget.onTimeout();
           setState(() {
@@ -56,6 +54,10 @@ class _TimeCounterState extends State<TimeCounter> {
           }
         } else {
           setState(() {
+            if (GlobalSetting.type == GamePlayTypes.infinity) {
+              GlobalSetting.timeCounter++;
+              return;
+            }
             GlobalSetting.timeCounter--;
           });
         }
@@ -63,20 +65,11 @@ class _TimeCounterState extends State<TimeCounter> {
     );
   }
 
-  String _formatMMSS() {
-    String str = "";
-    int minutes = GlobalSetting.timeCounter ~/ 60;
-    str = ("0" + minutes.toString()).substring(minutes.toString().length - 1);
-    int seconds = GlobalSetting.timeCounter % 60;
-    str = str +
-        ":" +
-        ("0" + seconds.toString()).substring(seconds.toString().length - 1);
-    return str;
-  }
-
   @override
   void initState() {
-    GlobalSetting.timeCounter = _seconds;
+    (GlobalSetting.type == GamePlayTypes.timeLimit)
+        ? GlobalSetting.timeCounter = GlobalSetting.seconds
+        : GlobalSetting.timeCounter = 0;
     super.initState();
   }
 
@@ -89,7 +82,7 @@ class _TimeCounterState extends State<TimeCounter> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              _formatMMSS(),
+              formatMMSS(GlobalSetting.timeCounter),
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 16,
@@ -97,7 +90,8 @@ class _TimeCounterState extends State<TimeCounter> {
               ),
             ),
           ),
-          OutlinedButton(
+          FloatingActionButton(
+            backgroundColor: Colors.pinkAccent,
             onPressed: () {
               if (_isPlaying) {
                 GlobalSetting.timer.cancel();
@@ -109,7 +103,11 @@ class _TimeCounterState extends State<TimeCounter> {
               }
               startTimer();
             },
-            child: Text(_isPlaying ? "Pause" : "Start"),
+            child: Icon(
+              _isPlaying ? Icons.pause_circle_filled : Icons.play_circle_filled,
+              size: 35,
+            ),
+            tooltip: _isPlaying ? "Pause" : "Start",
           ),
         ],
       ),

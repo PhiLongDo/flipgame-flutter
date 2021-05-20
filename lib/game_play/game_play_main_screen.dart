@@ -18,6 +18,7 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
   List<List<bool>> _stateVisible = []; //state visible matrix game
   String _valueA = "", _valueB = ""; // value of items game is opening
   int _xPre = -1, _yPre = -1;
+
   // late int _itemCountDown;
   late List<List<String>> _valueGame = [];
   late List<String> _textGame;
@@ -67,6 +68,17 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
             builder: (context) {
               return AlertDialog(
                 title: Text("You win!"),
+                content: Text(
+                  GlobalSetting.type == GamePlayTypes.infinity
+                      ? formatMMSS(GlobalSetting.timeCounter)
+                      : formatMMSS(
+                          GlobalSetting.seconds - GlobalSetting.timeCounter),
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 actions: [
                   TextButton(
                     onPressed: () {
@@ -74,7 +86,7 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
                       Navigator.pop(context);
                     },
                     child: Text("OK"),
-                  )
+                  ),
                 ],
               );
             });
@@ -121,7 +133,8 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
   /// create random list text
   void _crateListValueInGame() {
     _textGame = List.generate(GlobalSetting.itemCountDown, (index) => "");
-    List<int> listIndex = List.generate(GlobalSetting.itemCountDown, (index) => index);
+    List<int> listIndex =
+        List.generate(GlobalSetting.itemCountDown, (index) => index);
     for (int i = 0; i < GlobalSetting.itemCountDown; i++) {
       var random = Random();
       var index = random.nextInt(GlobalSetting.itemCountDown - i);
@@ -147,17 +160,25 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
           child: _buildWidgetMatrixGame(),
         ),
       ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          OutlinedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text("Back"),
-          ),
-          TimeCounter(onStart: ()=>setState((){_isDelaying = !_isDelaying;}), onTimeout: (){}, ),
-        ],
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(left: 30),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            FloatingActionButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("Back"),
+            ),
+            TimeCounter(
+              onStart: () => setState(() {
+                _isDelaying = !_isDelaying;
+              }),
+              onTimeout: () {},
+            ),
+          ],
+        ),
       ),
     );
   }

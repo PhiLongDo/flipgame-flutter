@@ -30,6 +30,9 @@ class _SelectTypeScreenState extends State<SelectTypeScreen> {
                   onTap: () => _select(GamePlayTypes.timeLimit),
                   text: "Time limit",
                   selected: GlobalSetting.type == GamePlayTypes.timeLimit),
+              // Visibility(
+              //   visible: GlobalSetting.type == GamePlayTypes.timeLimit,
+              //     child: Row(children: [Text("seconds:"), Container(width: 100, child: TextField()),Text(formatMMSS(GlobalSetting.seconds))],)),
             ],
           ),
         ),
