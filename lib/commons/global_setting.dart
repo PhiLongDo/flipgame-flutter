@@ -8,7 +8,7 @@ class GlobalSetting {
   static GamePlayLevels level = GamePlayLevels.lv3x4;
   static GamePlayTypes type = GamePlayTypes.infinity;
   static List<List<ItemGame>> matrixGame = []; // matrix game
-  static List<String> listValue = ['🍓','🍒','🍎','🍉','🍑','🍊','🥭','🍍','🍌','🍄','🍈','🍏','🍐','🥝','🍇','🥥','🍅','🌶','🍄','🥕','🍠','🌽','🥦','🥒','🥬','🥑','🍆','🥔','🌰','🥜','🍞','🥐','🥖','🥯','🥞','🍳','🥣','🥗','🍲','🍛','🍜','🦞','🍣','🍤','🥡','🥠','🍡','🍥','🍘','🍙','🍢','🥟','🍱','🍚','🥮','🍧','🍨','🍦','🥧'];
+  static List<String> listValue = ['🍓','🍒','🍎','🍉','🍑','🍊','🥭','🍍','🍌','🍈','🍏','🍐','🥝','🍇','🥥','🍅','🌶','🍄','🥕','🍠','🌽','🥦','🥒','🥬','🥑','🍆','🥔','🌰','🥜','🍞','🥐','🥖','🥯','🥞','🍳','🥣','🥗','🍲','🍛','🍜','🦞','🍣','🍤','🥡','🥠','🍡','🍥','🍘','🍙','🍢','🥟','🍱','🍚','🥮','🍧','🍨','🍦','🥧'];
   static int timeCounter = 0;
   static late Timer timer;
   static int itemCountDown = 0;
@@ -32,6 +32,9 @@ class GlobalSetting {
     if (level == GamePlayLevels.lv7x8) {
       width = 7;
     }
+    if (level == GamePlayLevels.lv10x10) {
+      width = 10;
+    }
     return width;
   }
   static int getGamePlayHeight() {
@@ -51,6 +54,9 @@ class GlobalSetting {
     if (level == GamePlayLevels.lv7x8) {
       height = 8;
     }
+    if (level == GamePlayLevels.lv10x10) {
+      height = 10;
+    }
     return height;
   }
 }
@@ -65,6 +71,7 @@ enum GamePlayLevels {
   lv5x6,
   lv6x7,
   lv7x8,
+  lv10x10,
 }
 
 /// Format MMSS
