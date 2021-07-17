@@ -13,7 +13,6 @@ class GlobalSetting {
   static late Timer timer;
   static int itemCountDown = 0;
   static int seconds = 180;    // time limit
-  // static bool isPlaying = false;
 
   static int getGamePlayWidth() {
     int width = 3;

@@ -90,24 +90,27 @@ class _TimeCounterState extends State<TimeCounter> {
               ),
             ),
           ),
-          FloatingActionButton(
-            backgroundColor: Colors.pinkAccent,
-            onPressed: () {
-              if (_isPlaying) {
-                GlobalSetting.timer.cancel();
-                widget.onStart();
-                setState(() {
-                  _isPlaying = false;
-                });
-                return;
-              }
-              startTimer();
-            },
-            child: Icon(
-              _isPlaying ? Icons.pause_circle_filled : Icons.play_circle_filled,
-              size: 35,
+          Container(
+            height: 45,
+            child: FloatingActionButton(
+              backgroundColor: Colors.pinkAccent,
+              onPressed: () {
+                if (_isPlaying) {
+                  GlobalSetting.timer.cancel();
+                  widget.onStart();
+                  setState(() {
+                    _isPlaying = false;
+                  });
+                  return;
+                }
+                startTimer();
+              },
+              child: Icon(
+                _isPlaying ? Icons.pause_circle_filled : Icons.play_circle_filled,
+                size: 35,
+              ),
+              tooltip: _isPlaying ? "Pause" : "Start",
             ),
-            tooltip: _isPlaying ? "Pause" : "Start",
           ),
         ],
       ),

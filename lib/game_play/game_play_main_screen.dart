@@ -106,7 +106,7 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
   /// Build matrix game
   Widget _buildWidgetMatrixGame() {
     List<String> copyValueList = List.from(_textGame);
-    late Column widgetMatrixGame; // display main screen game play
+    late Widget widgetMatrixGame; // display main screen game play
     List<Row> childrenColumn = [];
     for (int y = 0; y < _height; y++) {
       List<ItemGame> gameRow = [];
@@ -153,6 +153,7 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: SafeArea(
         child: AbsorbPointer(
@@ -165,11 +166,14 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            FloatingActionButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text("Back"),
+            Container(
+              height: 45,
+              child: FloatingActionButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Back"),
+              ),
             ),
             TimeCounter(
               onStart: () => setState(() {

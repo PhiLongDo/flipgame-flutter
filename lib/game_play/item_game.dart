@@ -16,30 +16,43 @@ class ItemGame extends StatefulWidget {
 
 class _ItemGameState extends State<ItemGame> {
 
-  double _getWidth(BuildContext context) {
-    double w;
-    if (MediaQuery.of(context).orientation == Orientation.landscape) {
-      w = MediaQuery.of(context).size.height /
-          GlobalSetting.getGamePlayHeight();
+  double _getWidth() {
+    const double dentaw = 240;
+    const double dentah = 60;
+    double w, h, real;
+    w = MediaQuery.of(context).size.width;
+    h = MediaQuery.of(context).size.height;
+    if (h < w) {
+      if (w - h >= dentaw){
+        real = MediaQuery.of(context).size.height /
+            GlobalSetting.getGamePlayHeight();
+      } else {
+        real = (MediaQuery.of(context).size.height - (dentaw - w + h)) /
+            GlobalSetting.getGamePlayHeight();
+      }
     } else {
-      w = MediaQuery.of(context).size.width / GlobalSetting.getGamePlayWidth();
+      if (h - w >= dentah){
+        real = MediaQuery.of(context).size.width / GlobalSetting.getGamePlayWidth();
+    } else {
+        real = (MediaQuery.of(context).size.width - (dentah - h + w))  / GlobalSetting.getGamePlayWidth();
     }
-    return w;
+
+    }
+    return real;
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: _getWidth(context),
-      height: _getWidth(context),
+      width: _getWidth(),
+      height: _getWidth(),
       child: Visibility(
         visible: widget.visible,
         child: GestureDetector(
           onTap: widget.onTap,
           child: Container(
-            width: _getWidth(context),
-            height: _getWidth(context),
-            padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+            width:_getWidth(),
+            height:  _getWidth(),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(3.0),
               border: Border.all(color: Colors.white, width: 1),
