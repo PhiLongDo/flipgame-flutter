@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flipgame/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'commons/commons.dart';
 import 'game_play/game_play_main_screen.dart';
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-   return MaterialApp(
+    return MaterialApp(
       title: 'Lật hình',
       routes: {
         'play': (context) => GamePlayMainScreen(),
@@ -40,6 +41,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String lv = '';
+  String type = '';
+
+  Future<void> readSetting() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      lv = (prefs.getString("level") ?? "lv3x4");
+      GlobalSetting.setLevel(lv);
+      type = (prefs.getString("type") ?? "infinity");
+      GlobalSetting.setType(type);
+    });
+  }
 
   @override
   void initState() {
@@ -47,8 +60,10 @@ class _MyHomePageState extends State<MyHomePage> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    readSetting();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +72,8 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              // Text(lv),
+              // Text(type),
               GestureDetector(
                 onTap: () => Navigator.pushNamed(context, "play"),
                 child: Container(

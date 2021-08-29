@@ -1,6 +1,7 @@
 import 'package:flipgame/commons/commons.dart';
 import 'package:flipgame/settings/item_setting.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SelectLevelScreen extends StatefulWidget {
   @override
@@ -8,10 +9,17 @@ class SelectLevelScreen extends StatefulWidget {
 }
 
 class _SelectLevelScreenState extends State<SelectLevelScreen> {
+
+  Future<void> _saveLevel() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("level",GlobalSetting.getStringLevel());
+  }
+
   void _select(GamePlayLevels level) {
     setState(() {
       GlobalSetting.level = level;
     });
+    _saveLevel();
   }
 
   @override

@@ -96,7 +96,7 @@ class _TimeCounterState extends State<TimeCounter> {
               backgroundColor: Colors.pinkAccent,
               onPressed: () {
                 if (_isPlaying) {
-                  GlobalSetting.timer.cancel();
+                  GlobalSetting.timer!.cancel();
                   widget.onStart();
                   setState(() {
                     _isPlaying = false;
@@ -119,7 +119,7 @@ class _TimeCounterState extends State<TimeCounter> {
 
   @override
   void dispose() {
-    GlobalSetting.timer.cancel();
+    GlobalSetting.timer?.cancel();
     super.dispose();
   }
 }

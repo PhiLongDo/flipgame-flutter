@@ -62,7 +62,7 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
         });
       }
       if (GlobalSetting.itemCountDown == 0) {
-        GlobalSetting.timer.cancel();
+        GlobalSetting.timer!.cancel();
         showCupertinoDialog(
             context: context,
             builder: (context) {
@@ -122,7 +122,6 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
       }
       Row row =
           Row(mainAxisAlignment: MainAxisAlignment.center, children: gameRow);
-      GlobalSetting.matrixGame.add(gameRow);
       childrenColumn.add(row);
     }
     widgetMatrixGame = Column(

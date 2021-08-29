@@ -1,6 +1,7 @@
 import 'package:flipgame/commons/commons.dart';
 import 'package:flipgame/settings/item_setting.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SelectTypeScreen extends StatefulWidget {
   @override
@@ -8,10 +9,17 @@ class SelectTypeScreen extends StatefulWidget {
 }
 
 class _SelectTypeScreenState extends State<SelectTypeScreen> {
+
+  Future<void> _saveType() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("type",GlobalSetting.getStringType());
+  }
+
   void _select(GamePlayTypes type) {
     setState(() {
       GlobalSetting.type = type;
     });
+    _saveType();
   }
 
   @override
