@@ -43,15 +43,14 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
   void _actionGame(int y, int x) {
     if (_yPre == y && _xPre == x) return; // Kiem tra viec nhan cung 1 item
     setState(() => _stateOpened[y][x] = true);
-    (_valueA == "") ? _valueA = _valueGame[y][x] : _valueB = _valueGame[y][x];
-
+    (_valueA == "") ? _valueA = _valueGame[y][x] : _valueB = _valueGame[y][x];  // Luu lai value cua item vua mo
     // Kiem tra co mo 2 item khong
     if (_valueB == "") {
       _xPre = x;
       _yPre = y;
       return;
     }
-
+    // delay neu mo 2 item
     setState(() => _isDelaying = true);
     Future.delayed(Duration(milliseconds: GlobalSetting.timeDelay), () {
       if (_valueA == _valueB) {
@@ -106,12 +105,12 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
   /// Build matrix game
   Widget _buildWidgetMatrixGame() {
     List<String> copyValueList = List.from(_textGame);
-    late Widget widgetMatrixGame; // display main screen game play
     List<Row> childrenColumn = [];
+    ItemGame itemGame;
     for (int y = 0; y < _height; y++) {
       List<ItemGame> gameRow = [];
       for (int x = 0; x < _width; x++) {
-        var itemGame = new ItemGame(
+          itemGame = new ItemGame(
           onTap: () => _actionGame(y, x),
           text: copyValueList[0],
           visible: _stateVisible[y][x],
@@ -124,9 +123,7 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
           Row(mainAxisAlignment: MainAxisAlignment.center, children: gameRow);
       childrenColumn.add(row);
     }
-    widgetMatrixGame = Column(
-        mainAxisAlignment: MainAxisAlignment.center, children: childrenColumn);
-    return widgetMatrixGame;
+    return Column( mainAxisAlignment: MainAxisAlignment.center, children: childrenColumn);
   }
 
   /// create random list text
@@ -134,9 +131,11 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
     _textGame = List.generate(GlobalSetting.itemCountDown, (index) => "");
     List<int> listIndex =
         List.generate(GlobalSetting.itemCountDown, (index) => index);
+    Random random;
+    int index;
     for (int i = 0; i < GlobalSetting.itemCountDown; i++) {
-      var random = Random();
-      var index = random.nextInt(GlobalSetting.itemCountDown - i);
+      random = Random();
+      index = random.nextInt(GlobalSetting.itemCountDown - i);
       _textGame[listIndex[index]] = GlobalSetting.listValue[i ~/ 2];
       _valueGame[listIndex[index] ~/ _width][listIndex[index] % _width] =
           _textGame[listIndex[index]];
@@ -152,12 +151,13 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: SafeArea(
-        child: AbsorbPointer(
-          absorbing: _isDelaying,
-          child: _buildWidgetMatrixGame(),
+        child: Center(
+          child: AbsorbPointer(
+            absorbing: _isDelaying,
+            child: _buildWidgetMatrixGame(),
+          ),
         ),
       ),
       floatingActionButton: Container(
@@ -165,13 +165,19 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Container(
-              height: 45,
-              child: FloatingActionButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text("Back"),
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                alignment: Alignment.center,
+                height: 45,
+                width: 45,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  color: Colors.green,
+                ),
+                child: Text("Back", style: TextStyle(color: Colors.white)),
               ),
             ),
             TimeCounter(

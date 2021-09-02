@@ -1,7 +1,4 @@
 import 'dart:async';
-
-import 'package:flipgame/game_play/item_game.dart';
-
 /// Save current setting (ex: level, type,...)
 class GlobalSetting {
   static int timeDelay = 400;
