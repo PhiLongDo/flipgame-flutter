@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dplong.flipgame">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="Lật hình"
         android:icon="@drawable/icon_app">

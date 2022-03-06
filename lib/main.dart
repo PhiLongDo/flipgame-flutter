@@ -15,6 +15,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Initialize Google Mobile Ads SDK
   await MobileAds.instance.initialize();
+  // Change your Id
+  // RequestConfiguration requestConfiguration = new RequestConfiguration(testDeviceIds:[<your id>]);
+  // MobileAds.instance.updateRequestConfiguration(requestConfiguration);
   runApp(MyApp());
 }
 
@@ -71,6 +74,49 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  Future<bool> _onWillPop() async {
+    if (SmartDialog.instance.config.isExist) {
+      SmartDialog.dismiss();
+      return false;
+    }
+    return true;
+  }
+
+  Widget _dialogExit() {
+    return Container(
+      width: 300,
+      padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 5.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(50.0),
+        color: Colors.amberAccent,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text("Exit"),
+          Text("Do you want exit app?",
+              style: TextStyle(fontSize: 20, color: Colors.black)),
+          SizedBox(height: 15),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              TextButton(
+                onPressed: () => SmartDialog.dismiss(),
+                child: Text("No",
+                    style: TextStyle(fontSize: 18, color: Colors.green)),
+              ),
+              TextButton(
+                onPressed: () => exit(0),
+                child: Text("Yes",
+                    style: TextStyle(fontSize: 18, color: Colors.red)),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   void initState() {
     SystemChrome.setPreferredOrientations([
@@ -78,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
       DeviceOrientation.portraitDown,
     ]);
     readSetting();
-    // TODO: Create a NativeAd instance
+    // Create a NativeAd instance
     _nativeAd = NativeAd(
       adUnitId: AdHelper.nativeAdUnitId,
       factoryId: 'listTile',
@@ -103,13 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async {
-        if (SmartDialog.instance.config.isExist) {
-          SmartDialog.dismiss();
-          return false;
-        }
-        return true;
-      },
+      onWillPop: _onWillPop,
       child: Scaffold(
         body: SafeArea(
           child: Stack(
@@ -182,26 +222,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text("Exit"),
-                                content: Text("Do you want exit app?"),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: Text("No"),
-                                  ),
-                                  TextButton(
-                                    onPressed: () => exit(0),
-                                    child: Text("Yes"),
-                                  ),
-                                ],
-                              );
-                            });
-                      },
+                      onTap: () => _showSetting(_dialogExit()),
                       child: Container(
                         margin: EdgeInsets.symmetric(vertical: 5.0),
                         padding: EdgeInsets.symmetric(
