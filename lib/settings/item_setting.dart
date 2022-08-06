@@ -1,23 +1,45 @@
 import 'package:flutter/material.dart';
 
+const defaultPadding = EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0);
+const defaultMargin = EdgeInsets.symmetric(vertical: 1.0);
+
 class ItemSetting extends StatelessWidget {
   final VoidCallback onTap;
   final String text;
   final bool selected;
+  final Color selectedColor;
+  final Color backColor;
 
-  ItemSetting({required this.onTap, required this.text, this.selected = false});
+  /// EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0)
+  final EdgeInsetsGeometry padding;
+
+  /// EdgeInsets.symmetric(vertical: 1.0)
+  final EdgeInsetsGeometry margin;
+
+  /// default 300
+  final double width;
+
+  ItemSetting(
+      {required this.onTap,
+      required this.text,
+      this.selected = false,
+      this.backColor = Colors.amberAccent,
+      this.selectedColor = Colors.deepOrange,
+      this.margin = defaultMargin,
+      this.padding = defaultPadding,
+      this.width = 300});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 300,
-        margin: EdgeInsets.symmetric(vertical: 1.0),
-        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
+        width: width,
+        margin: margin,
+        padding: padding,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50.0),
-          color: selected ? Colors.deepOrange : Colors.amberAccent,
+          color: selected ? selectedColor : backColor,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.max,

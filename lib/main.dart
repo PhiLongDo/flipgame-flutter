@@ -26,7 +26,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Lật hình',
         routes: {
           'play': (context) => GamePlayMainScreen(),
           'types': (context) => SelectTypeScreen(),
@@ -62,6 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
       GlobalSetting.setLevel(lv);
       type = (prefs.getString("type") ?? "infinity");
       GlobalSetting.setType(type);
+      GlobalSetting.seconds = (prefs.getInt("time") ?? 180);
     });
   }
 

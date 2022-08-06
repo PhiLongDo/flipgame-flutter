@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flipgame/commons/commons.dart';
 import 'package:flipgame/game_play/time_counter.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 
@@ -24,7 +23,7 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
   // late int _itemCountDown;
   late List<List<String>> _valueGame = [];
   late List<String> _textGame;
-  bool _isDelaying = true;
+  bool _isPause = true;
 
   /// Create const of game
   void _initGame() {
@@ -55,7 +54,7 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
       return;
     }
     // delay neu mo 2 item
-    setState(() => _isDelaying = true);
+    setState(() => _isPause = true);
     Future.delayed(Duration(milliseconds: GlobalSetting.timeDelay), () {
       if (_valueA == _valueB) {
         GlobalSetting.itemCountDown -= 2;
@@ -115,7 +114,7 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
         );
       }
       setState(() {
-        _isDelaying = false;
+        _isPause = false;
         _stateOpened[y][x] = false;
         _stateOpened[_yPre][_xPre] = false;
       });
@@ -182,7 +181,7 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
             child: Stack(
           children: [
             AbsorbPointer(
-              absorbing: _isDelaying,
+              absorbing: _isPause,
               child: _buildWidgetMatrixGame(),
             ),
             // Visibility(
@@ -226,7 +225,7 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
             ),
             TimeCounter(
               onStart: () => setState(() {
-                _isDelaying = !_isDelaying;
+                _isPause = !_isPause;
               }),
               onTimeout: () {},
             ),
