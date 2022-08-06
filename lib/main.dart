@@ -68,8 +68,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void _showSetting(Widget child) {
     SmartDialog.show(
       alignmentTemp: Alignment.center,
-      clickBgDismissTemp: true,
-      maskColorTemp: Colors.black87,
+      clickBgDismissTemp: false,
+      maskColorTemp: Colors.black,
       widget: child,
     );
   }

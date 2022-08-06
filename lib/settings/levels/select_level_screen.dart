@@ -1,7 +1,10 @@
 import 'package:flipgame/commons/commons.dart';
 import 'package:flipgame/settings/item_setting.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../commons/button_close_dialog.dart';
 
 class SelectLevelScreen extends StatefulWidget {
   @override
@@ -27,6 +30,9 @@ class _SelectLevelScreenState extends State<SelectLevelScreen> {
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        ButtonCloseDialog(
+          onClose: SmartDialog.dismiss,
+        ),
         ItemSetting(
             onTap: () => _select(GamePlayLevels.lv3x4),
             text: "Level 3x4",

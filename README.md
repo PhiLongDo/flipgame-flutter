@@ -4,6 +4,8 @@ Một trò chơi đơn giản, vui vẻ
 
 ## Getting Started
 
+# Flutter version 3.0.5
+
 This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:

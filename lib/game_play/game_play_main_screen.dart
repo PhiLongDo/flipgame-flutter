@@ -4,7 +4,9 @@ import 'package:flipgame/commons/commons.dart';
 import 'package:flipgame/game_play/time_counter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 
+import '../commons/button_close_dialog.dart';
 import 'item_game.dart';
 
 class GamePlayMainScreen extends StatefulWidget {
@@ -43,7 +45,9 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
   void _actionGame(int y, int x) {
     if (_yPre == y && _xPre == x) return; // Kiem tra viec nhan cung 1 item
     setState(() => _stateOpened[y][x] = true);
-    (_valueA == "") ? _valueA = _valueGame[y][x] : _valueB = _valueGame[y][x];  // Luu lai value cua item vua mo
+    (_valueA == "")
+        ? _valueA = _valueGame[y][x]
+        : _valueB = _valueGame[y][x]; // Luu lai value cua item vua mo
     // Kiem tra co mo 2 item khong
     if (_valueB == "") {
       _xPre = x;
@@ -62,33 +66,53 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
       }
       if (GlobalSetting.itemCountDown == 0) {
         GlobalSetting.timer!.cancel();
-        showCupertinoDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text("You win!"),
-                content: Text(
-                  GlobalSetting.type == GamePlayTypes.infinity
-                      ? formatMMSS(GlobalSetting.timeCounter)
-                      : formatMMSS(
-                          GlobalSetting.seconds - GlobalSetting.timeCounter),
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+        SmartDialog.show(
+          alignmentTemp: Alignment.center,
+          clickBgDismissTemp: false,
+          maskColorTemp: Colors.black87,
+          widget: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ButtonCloseDialog(onClose: () {
+                SmartDialog.dismiss();
+                Navigator.pop(context);
+              }),
+              Container(
+                width: 300,
+                margin: EdgeInsets.symmetric(vertical: 1.0),
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50.0),
+                  color: Colors.white70,
                 ),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      Navigator.pop(context);
-                    },
-                    child: Text("OK"),
-                  ),
-                ],
-              );
-            });
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text("You win!",
+                        style: TextStyle(
+                          color: Colors.blueAccent,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    Divider(thickness: 2),
+                    Text(
+                      GlobalSetting.type == GamePlayTypes.infinity
+                          ? formatMMSS(GlobalSetting.timeCounter)
+                          : formatMMSS(GlobalSetting.seconds -
+                              GlobalSetting.timeCounter),
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        );
       }
       setState(() {
         _isDelaying = false;
@@ -110,7 +134,7 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
     for (int y = 0; y < _height; y++) {
       List<ItemGame> gameRow = [];
       for (int x = 0; x < _width; x++) {
-          itemGame = new ItemGame(
+        itemGame = new ItemGame(
           onTap: () => _actionGame(y, x),
           text: copyValueList[0],
           visible: _stateVisible[y][x],
@@ -123,7 +147,8 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
           Row(mainAxisAlignment: MainAxisAlignment.center, children: gameRow);
       childrenColumn.add(row);
     }
-    return Column( mainAxisAlignment: MainAxisAlignment.center, children: childrenColumn);
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.center, children: childrenColumn);
   }
 
   /// create random list text
@@ -154,11 +179,30 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
     return Scaffold(
       body: SafeArea(
         child: Center(
-          child: AbsorbPointer(
-            absorbing: _isDelaying,
-            child: _buildWidgetMatrixGame(),
-          ),
-        ),
+            child: Stack(
+          children: [
+            AbsorbPointer(
+              absorbing: _isDelaying,
+              child: _buildWidgetMatrixGame(),
+            ),
+            // Visibility(
+            //   visible: _isDelaying,
+            //   child: Container(
+            //     alignment: Alignment.center,
+            //     constraints: BoxConstraints.expand(),
+            //     color: Colors.black87,
+            //     child: IconButton(
+            //       iconSize: 300,
+            //       color: Colors.indigo,
+            //       icon: Icon(Icons.play_arrow),
+            //       onPressed: () => setState(() {
+            //         _isDelaying = !_isDelaying;
+            //       }),
+            //     ),
+            //   ),
+            // ),
+          ],
+        )),
       ),
       floatingActionButton: Container(
         margin: EdgeInsets.only(left: 30),

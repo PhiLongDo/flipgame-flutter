@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:flipgame/commons/button_close_dialog.dart';
 import 'package:flipgame/commons/commons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 
 class TimeCounter extends StatefulWidget {
   final VoidCallback onStart;
@@ -35,22 +37,38 @@ class _TimeCounterState extends State<TimeCounter> {
             _isPlaying = false;
           });
           if (GlobalSetting.itemCountDown != 0) {
-            showCupertinoDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text("You close!"),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                        },
-                        child: Text("OK"),
-                      )
-                    ],
-                  );
-                });
+            SmartDialog.show(
+              alignmentTemp: Alignment.center,
+              clickBgDismissTemp: false,
+              maskColorTemp: Colors.black87,
+              widget: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ButtonCloseDialog(onClose: () {
+                    SmartDialog.dismiss();
+                    Navigator.pop(context);
+                  }),
+                  Container(
+                    width: 300,
+                    margin: EdgeInsets.symmetric(vertical: 1.0),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50.0),
+                      color: Colors.white70,
+                    ),
+                    alignment: Alignment.center,
+                    child: Text("You close!",
+                        style: TextStyle(
+                          color: Colors.redAccent,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  )
+                ],
+              ),
+            );
           }
         } else {
           setState(() {
@@ -106,7 +124,9 @@ class _TimeCounterState extends State<TimeCounter> {
                 startTimer();
               },
               child: Icon(
-                _isPlaying ? Icons.pause_circle_filled : Icons.play_circle_filled,
+                _isPlaying
+                    ? Icons.pause_circle_filled
+                    : Icons.play_circle_filled,
                 size: 35,
               ),
               tooltip: _isPlaying ? "Pause" : "Start",
