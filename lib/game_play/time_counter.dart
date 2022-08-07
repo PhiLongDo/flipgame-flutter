@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flipgame/commons/button_close_dialog.dart';
 import 'package:flipgame/commons/commons.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 
@@ -19,6 +18,7 @@ class TimeCounter extends StatefulWidget {
 
 class _TimeCounterState extends State<TimeCounter> {
   bool _isPlaying = false;
+  bool _isTimeout = false;
 
   void startTimer() {
     const oneSec = const Duration(seconds: 1);
@@ -35,6 +35,7 @@ class _TimeCounterState extends State<TimeCounter> {
           widget.onTimeout();
           setState(() {
             _isPlaying = false;
+            _isTimeout = true;
           });
           if (GlobalSetting.itemCountDown != 0) {
             SmartDialog.show(
@@ -93,7 +94,7 @@ class _TimeCounterState extends State<TimeCounter> {
 
   @override
   Widget build(BuildContext context) {
-    return _isPlaying
+    return _isPlaying || _isTimeout
         ? Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -148,10 +149,12 @@ class _TimeCounterState extends State<TimeCounter> {
                   startTimer();
                 },
                 child: Icon(
-                  Icons.play_circle_filled,
+                  _isPlaying
+                      ? Icons.pause_circle_filled
+                      : Icons.play_circle_filled,
                   size: 35,
                 ),
-                tooltip: "Start",
+                tooltip: _isPlaying ? "Pause" : "Start",
               ),
             ],
           );
