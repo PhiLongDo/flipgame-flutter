@@ -24,6 +24,7 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
   late List<List<String>> _valueGame = [];
   late List<String> _textGame;
   bool _isPause = true;
+  bool _isShowPlayInCenter = true;
 
   /// Create const of game
   void _initGame() {
@@ -177,36 +178,42 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Center(
-            child: Stack(
+        child: Stack(
           children: [
             AbsorbPointer(
               absorbing: _isPause,
               child: _buildWidgetMatrixGame(),
             ),
-            // Visibility(
-            //   visible: _isDelaying,
-            //   child: Container(
-            //     alignment: Alignment.center,
-            //     constraints: BoxConstraints.expand(),
-            //     color: Colors.black87,
-            //     child: IconButton(
-            //       iconSize: 300,
-            //       color: Colors.indigo,
-            //       icon: Icon(Icons.play_arrow),
-            //       onPressed: () => setState(() {
-            //         _isDelaying = !_isDelaying;
-            //       }),
-            //     ),
-            //   ),
-            // ),
+            Visibility(
+                visible: _isShowPlayInCenter,
+                child: Container(
+                  constraints: BoxConstraints.expand(),
+                  color: Colors.white30,
+                )),
+            Align(
+              alignment: _isShowPlayInCenter
+                  ? Alignment.center
+                  : Alignment.bottomRight,
+              child: AnimatedContainer(
+                margin: EdgeInsets.all(13),
+                curve: Curves.elasticInOut,
+                duration: Duration(milliseconds: 200),
+                child: TimeCounter(
+                  onStart: () => setState(() {
+                    _isPause = !_isPause;
+                    _isShowPlayInCenter = !_isShowPlayInCenter;
+                  }),
+                  onTimeout: () {},
+                ),
+              ),
+            ),
           ],
-        )),
+        ),
       ),
       floatingActionButton: Container(
         margin: EdgeInsets.only(left: 30),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             InkWell(
               onTap: () {
@@ -222,12 +229,6 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
                 ),
                 child: Text("Back", style: TextStyle(color: Colors.white)),
               ),
-            ),
-            TimeCounter(
-              onStart: () => setState(() {
-                _isPause = !_isPause;
-              }),
-              onTimeout: () {},
             ),
           ],
         ),

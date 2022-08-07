@@ -93,48 +93,68 @@ class _TimeCounterState extends State<TimeCounter> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              formatMMSS(GlobalSetting.timeCounter),
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+    return _isPlaying
+        ? Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  formatMMSS(GlobalSetting.timeCounter),
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-            ),
-          ),
-          Container(
-            height: 45,
-            child: FloatingActionButton(
-              backgroundColor: Colors.pinkAccent,
-              onPressed: () {
-                if (_isPlaying) {
-                  GlobalSetting.timer!.cancel();
-                  widget.onStart();
-                  setState(() {
-                    _isPlaying = false;
-                  });
-                  return;
-                }
-                startTimer();
-              },
-              child: Icon(
-                _isPlaying
-                    ? Icons.pause_circle_filled
-                    : Icons.play_circle_filled,
-                size: 35,
+              Container(
+                height: 45,
+                child: FloatingActionButton(
+                  backgroundColor: Colors.pinkAccent,
+                  onPressed: () {
+                    GlobalSetting.timer!.cancel();
+                    widget.onStart();
+                    setState(() {
+                      _isPlaying = false;
+                    });
+                  },
+                  child: Icon(
+                    Icons.pause_circle_filled,
+                    size: 35,
+                  ),
+                  tooltip: "Pause",
+                ),
               ),
-              tooltip: _isPlaying ? "Pause" : "Start",
-            ),
-          ),
-        ],
-      ),
-    );
+            ],
+          )
+        : Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  formatMMSS(GlobalSetting.timeCounter),
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              FloatingActionButton(
+                backgroundColor: Colors.pinkAccent,
+                onPressed: () {
+                  startTimer();
+                },
+                child: Icon(
+                  Icons.play_circle_filled,
+                  size: 35,
+                ),
+                tooltip: "Start",
+              ),
+            ],
+          );
   }
 
   @override
