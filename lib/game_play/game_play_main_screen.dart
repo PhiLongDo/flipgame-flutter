@@ -42,7 +42,7 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
   }
 
   /// Handle onTap on item game
-  void _actionGame(int y, int x) {
+  void _actionGame(int y, int x, BuildContext mainContext) {
     if (_yPre == y && _xPre == x) return; // Kiem tra viec nhan cung 1 item
     setState(() => _stateOpened[y][x] = true);
     (_valueA == "")
@@ -67,52 +67,55 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
       if (GlobalSetting.itemCountDown == 0) {
         GlobalSetting.timer!.cancel();
         SmartDialog.show(
-          alignmentTemp: Alignment.center,
-          clickBgDismissTemp: false,
-          maskColorTemp: Colors.black87,
-          widget: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ButtonCloseDialog(onClose: () {
-                SmartDialog.dismiss();
-                Navigator.pop(context);
-              }),
-              Container(
-                width: 300,
-                margin: EdgeInsets.symmetric(vertical: 1.0),
-                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50.0),
-                  color: Colors.white70,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text("You win!",
-                        style: TextStyle(
-                          color: Colors.blueAccent,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        )),
-                    Divider(thickness: 2),
-                    Text(
-                      GlobalSetting.type == GamePlayTypes.infinity
-                          ? formatMMSS(GlobalSetting.timeCounter)
-                          : formatMMSS(GlobalSetting.seconds -
-                              GlobalSetting.timeCounter),
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+            alignment: Alignment.center,
+            clickMaskDismiss: false,
+            maskColor: Colors.black87,
+            builder: (BuildContext context) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ButtonCloseDialog(onClose: () {
+                    SmartDialog.dismiss();
+                    Future.delayed(Duration(milliseconds: 100),
+                        () => Navigator.pop(mainContext));
+                  }),
+                  Container(
+                    width: 300,
+                    margin: EdgeInsets.symmetric(vertical: 1.0),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50.0),
+                      color: Colors.white70,
                     ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        );
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text("You win!",
+                            style: TextStyle(
+                              color: Colors.blueAccent,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            )),
+                        Divider(thickness: 2),
+                        Text(
+                          GlobalSetting.type == GamePlayTypes.infinity
+                              ? formatMMSS(GlobalSetting.timeCounter)
+                              : formatMMSS(GlobalSetting.seconds -
+                                  GlobalSetting.timeCounter),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              );
+            });
       }
       setState(() {
         _isPause = false;
@@ -135,7 +138,7 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
       List<ItemGame> gameRow = [];
       for (int x = 0; x < _width; x++) {
         itemGame = new ItemGame(
-          onTap: () => _actionGame(y, x),
+          onTap: () => _actionGame(y, x, context),
           text: copyValueList[0],
           visible: _stateVisible[y][x],
           isOpen: _stateOpened[y][x],
@@ -196,7 +199,7 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
                   : Alignment.bottomRight,
               child: AnimatedContainer(
                 margin: EdgeInsets.all(13),
-                curve: Curves.elasticInOut,
+                curve: Threshold(0.0),
                 duration: Duration(milliseconds: 200),
                 child: TimeCounter(
                   onStart: () => setState(() {

@@ -20,7 +20,7 @@ class _TimeCounterState extends State<TimeCounter> {
   bool _isPlaying = false;
   bool _isTimeout = false;
 
-  void startTimer() {
+  void startTimer(BuildContext mainContext) {
     const oneSec = const Duration(seconds: 1);
     widget.onStart();
     setState(() {
@@ -39,37 +39,39 @@ class _TimeCounterState extends State<TimeCounter> {
           });
           if (GlobalSetting.itemCountDown != 0) {
             SmartDialog.show(
-              alignmentTemp: Alignment.center,
-              clickBgDismissTemp: false,
-              maskColorTemp: Colors.black87,
-              widget: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ButtonCloseDialog(onClose: () {
-                    SmartDialog.dismiss();
-                    Navigator.pop(context);
-                  }),
-                  Container(
-                    width: 300,
-                    margin: EdgeInsets.symmetric(vertical: 1.0),
-                    padding:
-                        EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50.0),
-                      color: Colors.white70,
-                    ),
-                    alignment: Alignment.center,
-                    child: Text("You close!",
-                        style: TextStyle(
-                          color: Colors.redAccent,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  )
-                ],
-              ),
-            );
+                alignment: Alignment.center,
+                clickMaskDismiss: false,
+                maskColor: Colors.black87,
+                builder: (BuildContext context) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ButtonCloseDialog(onClose: () {
+                        SmartDialog.dismiss();
+                        Future.delayed(Duration(milliseconds: 100),
+                            () => Navigator.pop(mainContext));
+                      }),
+                      Container(
+                        width: 300,
+                        margin: EdgeInsets.symmetric(vertical: 1.0),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 20.0, horizontal: 10.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50.0),
+                          color: Colors.white70,
+                        ),
+                        alignment: Alignment.center,
+                        child: Text("You close!",
+                            style: TextStyle(
+                              color: Colors.redAccent,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            )),
+                      )
+                    ],
+                  );
+                });
           }
         } else {
           setState(() {
@@ -146,7 +148,7 @@ class _TimeCounterState extends State<TimeCounter> {
               FloatingActionButton(
                 backgroundColor: Colors.pinkAccent,
                 onPressed: () {
-                  startTimer();
+                  startTimer(context);
                 },
                 child: Icon(
                   _isPlaying

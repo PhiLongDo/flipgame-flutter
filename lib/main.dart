@@ -67,15 +67,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _showSetting(Widget child) {
     SmartDialog.show(
-      alignmentTemp: Alignment.center,
-      clickBgDismissTemp: false,
-      maskColorTemp: Colors.black,
-      widget: child,
+      alignment: Alignment.center,
+      clickMaskDismiss: false,
+      maskColor: Colors.black,
+      builder: (BuildContext context) {
+        return child;
+      },
     );
   }
 
   Future<bool> _onWillPop() async {
-    if (SmartDialog.instance.config.isExist) {
+    if (SmartDialog.config.isExist) {
       SmartDialog.dismiss();
       return false;
     }
@@ -138,7 +140,6 @@ class _MyHomePageState extends State<MyHomePage> {
         onAdFailedToLoad: (ad, error) {
           // Releases an ad resource when it fails to load
           ad.dispose();
-          print('Ad load failed (code=${error.code} message=${error.message})');
         },
       ),
     );
