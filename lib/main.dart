@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         routes: {
           'play': (context) => GamePlayMainScreen(),
           'types': (context) => SelectTypeScreen(),
@@ -130,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _nativeAd = NativeAd(
       adUnitId: AdHelper.nativeAdUnitId,
       factoryId: 'listTile',
-      request: AdRequest(),
+      request: AdRequest(extras: {'rdp': '1'}),
       listener: NativeAdListener(
         onAdLoaded: (_) {
           setState(() {

@@ -63,10 +63,10 @@ class _ItemGameState extends State<ItemGame> {
             child: Center(
               child: Text(
                 widget.isOpen ? widget.text : "✤",
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   color: widget.isOpen ? Colors.brown : Colors.blue,
-                  fontSize:
-                      _getWidth() - (100 / GlobalSetting.getGamePlayHeight()),
+                  fontSize: (200 / GlobalSetting.getGamePlayHeight()),
                 ),
               ),
             ),
