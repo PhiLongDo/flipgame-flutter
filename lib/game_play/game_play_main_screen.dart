@@ -26,6 +26,10 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
   bool _isPause = true;
   bool _isShowPlayInCenter = true;
 
+  // Lưu lại thời gian của lần tap gần nhất
+  var _lastTapMs = DateTime.now().millisecondsSinceEpoch;
+  var _tapIntervalMs = 50;
+
   /// Create const of game
   void _initGame() {
     _stateOpened.clear();
@@ -43,6 +47,11 @@ class _GamePlayMainScreenState extends State<GamePlayMainScreen> {
 
   /// Handle onTap on item game
   void _actionGame(int y, int x, BuildContext mainContext) {
+    // Chặn việc cùng lúc 2 item
+    final now = DateTime.now().millisecondsSinceEpoch;
+    if (now - _lastTapMs <= _tapIntervalMs) return;
+    _lastTapMs = now;
+
     if (_yPre == y && _xPre == x) return; // Kiem tra viec nhan cung 1 item
     setState(() => _stateOpened[y][x] = true);
     (_valueA == "")
