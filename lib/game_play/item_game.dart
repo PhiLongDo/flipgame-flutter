@@ -6,11 +6,12 @@ class ItemGame extends StatefulWidget {
   final VoidCallback onTap;
   final bool visible, isOpen;
 
-  ItemGame(
-      {required this.onTap,
-      required this.visible,
-      required this.isOpen,
-      required this.text});
+  ItemGame({
+    required this.onTap,
+    required this.visible,
+    required this.isOpen,
+    required this.text,
+  });
 
   @override
   _ItemGameState createState() => _ItemGameState();
@@ -67,6 +68,7 @@ class _ItemGameState extends State<ItemGame> {
                 style: TextStyle(
                   color: widget.isOpen ? Colors.brown : Colors.blue,
                   fontSize: (200 / GlobalSetting.getGamePlayHeight()),
+                  fontFamily: "NotoColorEmoji",
                 ),
               ),
             ),
